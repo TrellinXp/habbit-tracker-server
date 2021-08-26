@@ -7,6 +7,7 @@ const habitSchema = new Schema({
   amount: Number,
   unit: String,
   date: Date,
+  goodHabit: Boolean,
   user: { type: Schema.Types.ObjectId, ref: 'User' }
 });
 
