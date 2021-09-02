@@ -29,6 +29,18 @@ module.exports = (app) => {
   app.use(express.urlencoded({ extended: false }));
   app.use(cookieParser());
 
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET || 'This is our habit tracker app',
+      resave: true,
+      saveUninitialized: false,
+      cookie: {
+        sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+        secure: process.env.NODE_ENV === "production", // must be true if sameSite='none'
+      }
+    })
+  );
+
   app.set("trust proxy", 1);
 
   app.use(
