@@ -15,10 +15,17 @@ router.get('/habitsForUser/:userId', (req, res, next) => {
   Habit.find()
   .populate('user')
   .then(allTheHabits => {
-    const result = allTheHabits.filter(habit => habit.user._id == userId);
+    const result = allTheHabits.filter(habit => {
+       if(habit.user) {
+        return habit.user._id == userId;
+       }
+      }
+    );
     res.json(result);
   }) 
-  .catch(err => res.json(err));
+  .catch(err => {
+    res.json(err)
+  });
 });
 
 //Create a habbit
