@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-
 const Habit = require('../models/Habit.model'); 
 
 router.get('/habits', (req, res, next) => {
@@ -9,6 +8,17 @@ router.get('/habits', (req, res, next) => {
     .populate('user')
     .then(allTheHabits => res.json(allTheHabits))
     .catch(err => res.json(err));
+});
+
+router.get('/habitsForUser/:userId', (req, res, next) => {
+  const { userId } = req.params;  
+  Habit.find()
+  .populate('user')
+  .then(allTheHabits => {
+    const result = allTheHabits.filter(habit => habit.user._id == userId);
+    res.json(result);
+  }) 
+  .catch(err => res.json(err));
 });
 
 //Create a habbit
